@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
-using pterodactyl.DataObjects;
+using pelican.DataObjects;
 
-namespace pterodactyl.Storage
+namespace pelican.Storage
 {
    public class PterodactylDatabase
    {
@@ -66,7 +66,7 @@ namespace pterodactyl.Storage
                command.CommandText = @"INSERT INTO Users (DiscordUserID, PterodactylApiToken)
                                        VALUES (@discordUserID, @pterodactylApiToken)";
                command.Parameters.AddWithValue("@discordUserID", user.DiscordID);
-               command.Parameters.AddWithValue("@pterodactylApiToken", user.PterodactylApiKey);
+               command.Parameters.AddWithValue("@pterodactylApiToken", user.PelicanApiKey);
 
                return command.ExecuteNonQuery();
             }
@@ -92,7 +92,7 @@ namespace pterodactyl.Storage
                      {
                         Id = reader.GetInt32(0),
                         DiscordID = reader.GetInt64(1),
-                        PterodactylApiKey = reader.GetString(2)
+                        PelicanApiKey = reader.GetString(2)
                      };
 
                      return record;
@@ -122,7 +122,7 @@ namespace pterodactyl.Storage
                      {
                         Id = reader.GetInt32(0),
                         DiscordID = reader.GetInt64(1),
-                        PterodactylApiKey = reader.GetString(2)
+                        PelicanApiKey = reader.GetString(2)
                      };
 
                      return record;
@@ -146,7 +146,7 @@ namespace pterodactyl.Storage
                command.CommandText = @"UPDATE Users
                                        SET PterodactylApiToken = @pterodactylApiToken
                                        WHERE DiscordUserID = @discordUserID";
-               command.Parameters.AddWithValue("@pterodactylApiToken", user.PterodactylApiKey);
+               command.Parameters.AddWithValue("@pterodactylApiToken", user.PelicanApiKey);
                command.Parameters.AddWithValue("@discordUserID", user.DiscordID);
 
                return command.ExecuteNonQuery();
@@ -174,7 +174,7 @@ namespace pterodactyl.Storage
                      {
                         Id = reader.GetInt32(0),
                         DiscordID = reader.GetInt64(1),
-                        PterodactylApiKey = reader.GetString(2)
+                        PelicanApiKey = reader.GetString(2)
                      };
 
                      records.Add(record);

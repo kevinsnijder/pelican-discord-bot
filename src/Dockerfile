@@ -1,20 +1,22 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
+FROM mcr.microsoft.com/dotnet/runtime:10.0-alpine AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 WORKDIR /src
-COPY ["src/pterodactyl-discord-bot.csproj", "src/"]
-RUN dotnet restore "src/pterodactyl-discord-bot.csproj"
+COPY ["src/pelican-discord-bot.csproj", "src/"]
+COPY ["pelican/pelican.csproj", "pelican/"]
+COPY ["discord/discord.csproj", "discord/"]
+RUN dotnet restore "src/pelican-discord-bot.csproj"
 COPY . .
 WORKDIR "/src/src"
-RUN dotnet build "pterodactyl-discord-bot.csproj" -c Release -o /app/build
+RUN dotnet build "pelican-discord-bot.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "pterodactyl-discord-bot.csproj" -c Release -o /app/publish
+RUN dotnet publish "pelican-discord-bot.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "pterodactyl-discord-bot.dll"]
+ENTRYPOINT ["dotnet", "pelican-discord-bot.dll"]

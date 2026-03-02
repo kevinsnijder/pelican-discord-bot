@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
-using pterodactyl.DataObjects;
+using pelican.DataObjects;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-namespace pterodactyl.Services
+namespace pelican.Services
 {
    /// <summary>
-   /// Service for doing network requests to pterodactyl
+   /// Service for doing network requests to pelican
    /// </summary>
    public class PterodactylHttpService : IPterodactylHttpService
    {
@@ -33,7 +33,7 @@ namespace pterodactyl.Services
       {
          SetApiKey(apiKey);
 
-         _logger.LogInformation("Getting servers from pterodactyl");
+         _logger.LogInformation("Getting servers from pelican");
          var result = await _httpClient.GetAsync(_getServersPath);
          if (!result.IsSuccessStatusCode)
             throw new ArgumentNullException("An unsuccessful status code returned from the GetServersAsync call.");
@@ -95,7 +95,22 @@ namespace pterodactyl.Services
 
          _logger.LogInformation("Checking valid api key");
          var result = await _httpClient.GetAsync(_accountDetailsPath);
-         return result.IsSuccessStatusCode && !(await result.Content.ReadAsStringAsync()).StartsWith("<");
+         
+         if (!result.IsSuccessStatusCode)
+         {
+            _logger.LogWarning($"API key validation failed with status code {result.StatusCode}");
+            return false;
+         }
+
+         var responseContent = await result.Content.ReadAsStringAsync();
+         var isValid = !responseContent.TrimStart().StartsWith("<");
+         
+         if (!isValid)
+         {
+            _logger.LogWarning("API key validation returned HTML instead of JSON - API key may be invalid or API URL may be incorrect");
+         }
+         
+         return isValid;
       }
    }
 }

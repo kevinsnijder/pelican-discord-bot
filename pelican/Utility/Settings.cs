@@ -1,12 +1,12 @@
-﻿namespace pterodactyl.Utility
+﻿namespace pelican.Utility
 {
    public static class Settings
    {
-      public static string? GlobalPterodactylKey
+      public static string? GlobalPelicanKey
       {
          get
          {
-            return Environment.GetEnvironmentVariable("PTERO_GLOBAL_API_KEY");
+            return Environment.GetEnvironmentVariable("PELICAN_GLOBAL_API_KEY");
          }
       }
 
@@ -21,13 +21,13 @@
          }
       }
 
-      public static string PterodactylUrl
+      public static string PelicanUrl
       {
          get
          {
-            var url = Environment.GetEnvironmentVariable("PTERO_API_URL");
+            var url = Environment.GetEnvironmentVariable("PELICAN_API_URL");
             if (url == null)
-               throw new ArgumentNullException("PTERO_API_URL environment variable is not set!");
+               throw new ArgumentNullException("PELICAN_API_URL environment variable is not set!");
             return url.TrimEnd('/');
          }
       }

@@ -1,7 +1,7 @@
-﻿using pterodactyl.DataObjects;
-using pterodactyl.Services;
+﻿using pelican.DataObjects;
+using pelican.Services;
 
-namespace pterodactyl.Extensions
+namespace pelican.Extensions
 {
    public static class PterodactylServerEnumerableExtensions
    {

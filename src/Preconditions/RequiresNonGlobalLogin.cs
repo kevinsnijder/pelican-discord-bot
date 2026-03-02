@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
-using pterodactyl.Storage;
+using pelican.Storage;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace DiscordBot.Preconditions
       {
          var currentUser = _database.GetUsers().Where(user => user.DiscordID == (long)context.Interaction.User.Id).FirstOrDefault();
 
-         if (currentUser == null || string.IsNullOrEmpty(currentUser.PterodactylApiKey))
+         if (currentUser == null || string.IsNullOrEmpty(currentUser.PelicanApiKey))
          {
             var errormessage = Messages.Get("login.required");
             await context.Interaction.RespondAsync(errormessage, ephemeral: true);

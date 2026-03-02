@@ -3,16 +3,16 @@ using Discord.Interactions;
 using DiscordBot.AutoCompleteHandlers;
 using DiscordBot.Preconditions;
 using Microsoft.Extensions.Logging;
-using pterodactyl.Extensions;
-using pterodactyl.DataObjects;
-using pterodactyl.DataProviders;
-using pterodactyl.Services;
+using pelican.Extensions;
+using pelican.DataObjects;
+using pelican.DataProviders;
+using pelican.Services;
 using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using pterodactyl;
+using pelican;
 
 namespace DiscordBot.Modules
 {

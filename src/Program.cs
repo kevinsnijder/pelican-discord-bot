@@ -2,11 +2,11 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using pterodactyl.DataProviders;
-using pterodactyl.Services;
+using pelican.DataProviders;
+using pelican.Services;
 using System;
 using discord.Services;
-using pterodactyl.Utility;
+using pelican.Utility;
 
 Console.WriteLine("----------------------------------------------------------------------");
 Console.WriteLine(" _  __          _             ____  _                 ____        _   ");
@@ -17,9 +17,9 @@ Console.WriteLine("|_|\\_\\___| \\_/ |_|_| |_|___/ |_|    \\__\\___|_|  \\___/|_
 Console.WriteLine("----------------------------------------------------------------------");
 
 var discordToken = Settings.DiscordToken;
-var url = Settings.PterodactylUrl;
+var url = Settings.PelicanUrl;
 var authGroup = Settings.DiscordAuthGroup;
-var globalKey = Settings.GlobalPterodactylKey;
+var globalKey = Settings.GlobalPelicanKey;
 
 if (string.IsNullOrEmpty(authGroup))
    Console.WriteLine("Currently not adding users to a special discord group on authentication.");
@@ -30,21 +30,26 @@ if (string.IsNullOrEmpty(globalKey))
    Console.WriteLine("Currently not using a global API key that everyone can use.");
 
 using IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-       var discordConfig = new DiscordSocketConfig()
-       {
-          GatewayIntents = Discord.GatewayIntents.Guilds
-       };
+.ConfigureServices(services =>
+{
+   var discordConfig = new DiscordSocketConfig()
+   {
+      GatewayIntents = Discord.GatewayIntents.Guilds,
+      AlwaysDownloadUsers = false,
+      MessageCacheSize = 100,
+      ConnectionTimeout = 30000,
+      DefaultRetryMode = Discord.RetryMode.AlwaysRetry,
+      LogGatewayIntentWarnings = false
+   };
 
-       services.AddSingleton(new DiscordSocketClient(discordConfig));
-       services.AddSingleton<InteractionService>();
+   services.AddSingleton(new DiscordSocketClient(discordConfig));
+       services.AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()));
        services.AddScoped<IPterodactylModuleDataProvider, PterodactylModuleDataProvider>();
        services.AddHostedService<InteractionHandlingService>();
        services.AddHostedService<DiscordStartupService>();
        services.AddHttpClient<IPterodactylHttpService, PterodactylHttpService>(client =>
        {
-          var address = Settings.PterodactylUrl;
+          var address = Settings.PelicanUrl;
           client.BaseAddress = new Uri(address);
        });
 

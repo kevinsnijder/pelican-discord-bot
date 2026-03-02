@@ -3,7 +3,7 @@ using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using pterodactyl.Utility;
+using pelican.Utility;
 
 namespace discord.Services
 {

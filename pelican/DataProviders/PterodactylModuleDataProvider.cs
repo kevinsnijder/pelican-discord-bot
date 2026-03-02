@@ -1,13 +1,13 @@
-﻿using pterodactyl.DataObjects;
-using pterodactyl.Services;
+﻿using pelican.DataObjects;
+using pelican.Services;
 using Microsoft.Extensions.Logging;
-using pterodactyl.Storage;
-using pterodactyl.Utility;
+using pelican.Storage;
+using pelican.Utility;
 
-namespace pterodactyl.DataProviders
+namespace pelican.DataProviders
 {
    /// <summary>
-   /// Provides data to the PterodactylModule and caches it to prevent bombaring my server with requests
+   /// Provides data to the PterodactylModule and caches it to prevent bombarding the pelican server with requests
    /// </summary>
    public class PterodactylModuleDataProvider : IPterodactylModuleDataProvider
    {
@@ -64,12 +64,12 @@ namespace pterodactyl.DataProviders
          }
         
          _logger.LogInformation(logPrefix + "Sending server signal with global API key");
-         var globalKey = Settings.GlobalPterodactylKey;
+         var globalKey = Settings.GlobalPelicanKey;
 
          if (globalKey == null)
          {
             _logger.LogInformation(logPrefix + "No global API key is set");
-            return false; ;
+            return false;
          }
 
          return await _pterodactylHttpService.SendSignalAsync(globalKey, serverID, signalName);
@@ -85,16 +85,16 @@ namespace pterodactyl.DataProviders
          var personalKey = GetPersonalApiKey(userId);
          if (personalKey == null)
          {
-            _logger.LogInformation(logPrefix + "No personal login set, skipping pterodactyl request");
+            _logger.LogInformation(logPrefix + "No personal login set, skipping pelican request");
             return serverList;
          }
 
-         _logger.LogInformation(logPrefix + "Personal information set, doing pterodactyl request");
+         _logger.LogInformation(logPrefix + "Personal information set, doing pelican request");
          var servers = await _pterodactylHttpService.GetServersAsync(personalKey);
 
          if (servers == null)
          {
-            _logger.LogInformation(logPrefix + "Something went wrong when trying to retrieve the personal servers from pterodactyl.");
+            _logger.LogInformation(logPrefix + "Something went wrong when trying to retrieve the personal servers from pelican.");
             return serverList;
          }
 
@@ -120,16 +120,16 @@ namespace pterodactyl.DataProviders
 
          var serverList = new List<PterodactylServerDto>();
 
-         var globalKey = Settings.GlobalPterodactylKey;
+         var globalKey = Settings.GlobalPelicanKey;
          if (!string.IsNullOrEmpty(globalKey))
          {
-            _logger.LogInformation(logPrefix + "Global information set, doing pterodactyl request");
+            _logger.LogInformation(logPrefix + "Global information set, doing pelican request");
 
             var servers = await _pterodactylHttpService.GetServersAsync(globalKey);
 
             if (servers == null)
             {
-               _logger.LogInformation(logPrefix + "Something went wrong when trying to retrieve the global servers from pterodactyl.");
+               _logger.LogInformation(logPrefix + "Something went wrong when trying to retrieve the global servers from pelican.");
                return serverList;
             }
 
@@ -146,7 +146,7 @@ namespace pterodactyl.DataProviders
             }
          }
          else
-            _logger.LogInformation(logPrefix + "No global user set, skipping pterodactyl request");
+            _logger.LogInformation(logPrefix + "No global user set, skipping pelican request");
 
          return serverList;
       }
@@ -154,10 +154,10 @@ namespace pterodactyl.DataProviders
       private string? GetPersonalApiKey(ulong userId) 
       {
          var currentUser = _database.GetUsers().Where(user => user.DiscordID == (long) userId).FirstOrDefault();
-         if (currentUser == null || string.IsNullOrEmpty(currentUser.PterodactylApiKey))
+         if (currentUser == null || string.IsNullOrEmpty(currentUser.PelicanApiKey))
             return null;
 
-         return currentUser.PterodactylApiKey;
+         return currentUser.PelicanApiKey;
       }
    }
 }

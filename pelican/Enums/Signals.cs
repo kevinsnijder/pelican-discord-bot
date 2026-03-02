@@ -1,4 +1,4 @@
-﻿namespace pterodactyl
+﻿namespace pelican
 {
    public enum Signals
    {

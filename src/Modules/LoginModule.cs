@@ -2,10 +2,10 @@
 using Discord.Interactions;
 using DiscordBot.AutoCompleteHandlers;
 using Microsoft.Extensions.Logging;
-using pterodactyl.DataObjects;
-using pterodactyl.Services;
-using pterodactyl.Storage;
-using pterodactyl.Utility;
+using pelican.DataObjects;
+using pelican.Services;
+using pelican.Storage;
+using pelican.Utility;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,7 +41,7 @@ namespace DiscordBot.Modules
          _logger.LogInformation(logPrefix + string.Format(Messages.Get("channel.command.executed"), Context.User.Username, "/login", Context.Interaction.Channel.Name, Context.Interaction.ChannelId));
 
          if(!_pterodactylService.CheckLogin(apiKey).Result)
-            return RespondAsync(string.Format(Messages.Get("login.loginnotworking"), Settings.PterodactylUrl), ephemeral: true);
+            return RespondAsync(string.Format(Messages.Get("login.loginnotworking"), Settings.PelicanUrl), ephemeral: true);
          
          var discordUser = Context.Guild.GetUser(Context.Interaction.User.Id);
 
@@ -66,7 +66,7 @@ namespace DiscordBot.Modules
             _database.InsertUser(new UserDto()
             {
                DiscordID = userId,
-               PterodactylApiKey = apiKey
+               PelicanApiKey = apiKey
             });
             return RespondAsync(string.Format(Messages.Get("login.loginadded"), discordUser?.Nickname ?? user.DiscordID.ToString()), ephemeral: true);
          }
@@ -75,7 +75,7 @@ namespace DiscordBot.Modules
             _database.UpdateUser(new UserDto()
             {
                DiscordID = userId,
-               PterodactylApiKey = apiKey
+               PelicanApiKey = apiKey
             });
 
             return RespondAsync(string.Format(Messages.Get("login.loginupdated"), discordUser?.Nickname ?? user.DiscordID.ToString()), ephemeral: true);

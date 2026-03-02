@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
-using pterodactyl.Utility;
+using pelican.Utility;
 using System;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace DiscordBot.Preconditions
    {
       public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context, ICommandInfo commandInfo, IServiceProvider services)
       {
-         var hasGlobalKey = !string.IsNullOrEmpty(Settings.GlobalPterodactylKey);
+         var hasGlobalKey = !string.IsNullOrEmpty(Settings.GlobalPelicanKey);
 
          if (hasGlobalKey)
             return PreconditionResult.FromSuccess();

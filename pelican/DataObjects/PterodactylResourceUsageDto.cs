@@ -1,8 +1,8 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-namespace pterodactyl.DataObjects
+namespace pelican.DataObjects
 {
    /// <summary>
-   /// Dataobject for retrieving pterodactyl resource usage data
+   /// Dataobject for retrieving pelican resource usage data
    /// </summary>
    public record PterodactylResourceUsageDto
    {
@@ -11,7 +11,7 @@ namespace pterodactyl.DataObjects
    }
 
    /// <summary>
-   /// Dataobject for retrieving pterodactyl resource usage data attributes
+   /// Dataobject for retrieving pelican resource usage data attributes
    /// </summary>
    public record PterodactylResourceUsageDtoAttributes
    {

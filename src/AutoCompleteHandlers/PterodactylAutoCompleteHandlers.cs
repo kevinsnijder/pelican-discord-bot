@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Interactions;
-using pterodactyl.DataProviders;
-using pterodactyl.Extensions;
-using pterodactyl.Services;
+using pelican.DataProviders;
+using pelican.Extensions;
+using pelican.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

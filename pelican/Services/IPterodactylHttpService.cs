@@ -1,9 +1,9 @@
-﻿using pterodactyl.DataObjects;
+﻿using pelican.DataObjects;
 
-namespace pterodactyl.Services
+namespace pelican.Services
 {
    /// <summary>
-   /// Interface for getting information from the pterodactyl API
+   /// Interface for getting information from the pelican API
    /// </summary>
    public interface IPterodactylHttpService
    {
