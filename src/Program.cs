@@ -2,6 +2,7 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using pelican.DataProviders;
 using pelican.Services;
 using System;
@@ -30,6 +31,15 @@ if (string.IsNullOrEmpty(globalKey))
    Console.WriteLine("Currently not using a global API key that everyone can use.");
 
 using IHost host = Host.CreateDefaultBuilder(args)
+.ConfigureLogging(logging =>
+{
+   logging.ClearProviders();
+   logging.AddConsole(options =>
+   {
+      options.FormatterName = "customFormatter";
+   })
+   .AddConsoleFormatter<CustomConsoleFormatter, Microsoft.Extensions.Logging.Console.ConsoleFormatterOptions>();
+})
 .ConfigureServices(services =>
 {
    var discordConfig = new DiscordSocketConfig()

@@ -20,7 +20,7 @@
 		{ "stopserver.stopped": "🛑 Stop | {0}: stopped" },
 		{ "login.loginadded": "Successfully logged in user {0}" },
 		{ "login.loginupdated": "Updated the API key for user {0}." },
-		{ "login.loginnotworking": "The provided API key does not work as expected. Please provide an API key from {0}/account/api." },
+		{ "login.loginnotworking": "The provided API key does not work as expected. Please provide an API key from {0}/profile?tab=api-keys%3A%3Adata%3A%3Atab." },
 		{ "deletelogin.nonexistent": "The user you are trying to delete does not exist in the database." },
 		{ "deletelogin.deleted": "Successfully deleted the API key for user {0}." }
 	]

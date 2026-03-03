@@ -48,6 +48,14 @@ namespace discord.Services
             try
             {
                 var context = new SocketInteractionContext(_discord, interaction);
+                
+                // Handle autocomplete interactions separately
+                if (interaction is SocketAutocompleteInteraction autocompleteInteraction)
+                {
+                    await _interactions.ExecuteCommandAsync(context, _services);
+                    return;
+                }
+                
                 var result = await _interactions.ExecuteCommandAsync(context, _services);
 
                 if (!result.IsSuccess)
